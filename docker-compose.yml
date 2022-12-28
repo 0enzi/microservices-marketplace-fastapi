@@ -5,7 +5,7 @@ services:
     image: ieloro-gateway
     command: sh -c "uvicorn main:app --reload --host 0.0.0.0"
     build:
-      context: ./gateway
+      context: ./gateway_service
       dockerfile: Dockerfile
     env_file:
       - ./gateway/.env
@@ -21,7 +21,7 @@ services:
     image: ieloro-users
     command: sh -c "uvicorn main:app --reload --host 0.0.0.0"
     build:
-      context: ./users
+      context: ./user_service
       dockerfile: Dockerfile
     env_file:
       - ./users/.env
@@ -32,7 +32,7 @@ services:
     image: ieloro-listings
     command: sh -c "uvicorn main:app --reload --host 0.0.0.0"
     build:
-      context: ./listings
+      context: ./listing_service
       dockerfile: Dockerfile
     env_file:
       - ./listings/.env
