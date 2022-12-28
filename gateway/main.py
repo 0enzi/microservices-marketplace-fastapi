@@ -6,7 +6,7 @@ from core import route
 from datastructures.users import (UsernamePasswordForm,
                                   UserForm,
                                   UserUpdateForm)
-from datastructures.orders import OrderForm
+from datastructures.listings import ListingForm
 
 app = FastAPI()
 
@@ -114,7 +114,7 @@ async def update_user(user_id: int, user: UserUpdateForm,
 
 @route(
     request_method=app.get,
-    path='/api/orders',
+    path='/api/listings',
     status_code=status.HTTP_200_OK,
     payload_key=None,
     service_url=settings.ORDERS_SERVICE_URL,
@@ -123,25 +123,25 @@ async def update_user(user_id: int, user: UserUpdateForm,
     authentication_token_decoder='auth.decode_access_token',
     service_authorization_checker='auth.is_default_user',
     service_header_generator='auth.generate_request_header',
-    response_model='datastructures.orders.OrderResponse',
+    response_model='datastructures.listings.OrderResponse',
     response_list=True,
 )
-async def get_orders(request: Request, response: Response):
+async def get_listings(request: Request, response: Response):
     pass
 
 
 @route(
     request_method=app.post,
-    path='/api/orders',
+    path='/api/listings',
     status_code=status.HTTP_200_OK,
-    payload_key='order',
+    payload_key='listing',
     service_url=settings.ORDERS_SERVICE_URL,
     authentication_required=True,
     post_processing_func=None,
     authentication_token_decoder='auth.decode_access_token',
     service_authorization_checker='auth.is_default_user',
     service_header_generator='auth.generate_request_header',
-    response_model='datastructures.orders.OrderResponse',
+    response_model='datastructures.listings.OrderResponse',
 )
-async def create_order(order: OrderForm, request: Request, response: Response):
+async def create_listing(listing: ListingForm, request: Request, response: Response):
     pass
