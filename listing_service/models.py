@@ -1,15 +1,20 @@
 import uuid
-from typing import Optional
+from typing import List, Optional
 from pydantic import BaseModel, Field
 
 class Listing(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
     title: str = Field(...)
-    country: str = Field(...)
-    city: str = Field(...)
+    display_images: List[str] = Field(...)
+    views: int = Field(...)
+    reference: str = Field(...)
+    location: str = Field(...)
+    merchant_id: str = Field(...)
+    category: str = Field(...)
+    additional_details: str = Field(...)
     promoted: bool = Field(...)
     status: str = Field(...) # activated, unactivated, pending)
-  
+    
 
     class Config:
         allow_population_by_field_name = True
