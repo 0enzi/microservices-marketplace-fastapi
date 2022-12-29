@@ -1,0 +1,5 @@
+fastapi[all]
+pydantic
+pymongo[srv]
+python-dotenv
+pytest
