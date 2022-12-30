@@ -8,14 +8,14 @@ services:
       context: ./gateway_service
       dockerfile: Dockerfile
     env_file:
-      - ./gateway/.env
+      - ./gateway_service/.env
     ports:
       - 8001:8000
     depends_on:
       - users
-      - orders
+      - listings
     volumes:
-      - ./gateway:/app
+      - ./gateway_service:/app
 
   users:
     image: ieloro-users
@@ -24,17 +24,17 @@ services:
       context: ./user_service
       dockerfile: Dockerfile
     env_file:
-      - ./users/.env
+      - ./user_service/.env
     volumes:
-      - ./users:/app
+      - ./user_service:/app
 
-  orders:
+  listings:
     image: ieloro-listings
     command: sh -c "uvicorn main:app --reload --host 0.0.0.0"
     build:
       context: ./listing_service
       dockerfile: Dockerfile
     env_file:
-      - ./listings/.env
+      - ./listing_service/.env
     volumes:
-      - ./listings:/app
+      - ./listing_service:/app
