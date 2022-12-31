@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+passlib
+bcrypt
+
+# for test purposes
+flake8
+ipdb
+ipython
