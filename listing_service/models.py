@@ -10,8 +10,8 @@ class Listing(BaseModel):
     reference: str = Field(...)
     location: str = Field(...)
     account_id: str = Field(...)
-    category: str = Field(...)
-    additional_details: str = Field(...)
+    category_id: str = Field(...)
+    additional_details: dict = Field(...)
     promoted: bool = Field(...)
     status: str = Field(...) # activated, unactivated, pending)
     
@@ -23,10 +23,19 @@ class Listing(BaseModel):
             "example": {
                 "_id": "f3r43-4f3r4-3f4r3-4f3r4",
                 "title": "Don Quixote",
-                "country": "Spain",
-                "city": "Madrid",
+                "display_images": ["https://www.google.com", "https://www.google.com"],
+                "views": 0,
+                "reference": "123456",
+                "location": "Madrid, Spain",
+                "account_id": "f3r43-4f3r4-3f4r3-4f3r4",
+                "category_id": "f3r43-4f3r4-3f4r3-4f3r4",
+                "additional_details": {
+                    "author": "Miguel de Cervantes",
+                    "year": 1605,
+                    "pages": 1000,
+                },
                 "promoted": "True",
-                "status": "activated"
+                "status": "activated",
             }
         }
 
