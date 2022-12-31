@@ -9,7 +9,7 @@ class Listing(BaseModel):
     views: int = Field(...)
     reference: str = Field(...)
     location: str = Field(...)
-    merchant_id: str = Field(...)
+    account_id: str = Field(...)
     category: str = Field(...)
     additional_details: str = Field(...)
     promoted: bool = Field(...)

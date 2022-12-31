@@ -13,7 +13,7 @@ Listings:
     views: int = Field(...)
     reference: str = Field(...)
     location: str = Field(...)
-    merchant_id: str = Field(...)
+    account_id: str = Field(...)
     category: str = Field(...)
     additional_details: str = Field(...)
     promoted: bool = Field(...)
@@ -45,7 +45,7 @@ def test_create_listing():
              "views": 0,
                 "reference": "123456789",
                 "location": "Madrid",
-                "merchant_id": "123456789",
+                "account_id": "123456789",
                 "category": "Books",
                 "additional_details": {"pages": "1000", "language": "Spanish", "author": "Miguel de Cervantes"},         
                "promoted": "True",
@@ -60,7 +60,7 @@ def test_create_listing():
         assert body.get("views") == 0
         assert body.get("reference") == "123456789"
         assert body.get("location") == "Madrid"
-        assert body.get("merchant_id") == "123456789"
+        assert body.get("account_id") == "123456789"
         assert body.get("category") == "Books"
         assert body.get("additional_details") == {"pages": "1000", "language": "Spanish", "author": "Miguel de Cervantes"}
         assert body.get("promoted") == "True"
@@ -75,7 +75,7 @@ def test_create_listing_missing_title():
                 "views": 0,
                 "reference": "123456789",
                 "location": "Madrid",
-                "merchant_id": "123456789",
+                "account_id": "123456789",
                 "category": "Books",
                 "additional_details": {"pages": "1000", "language": "Spanish", "author": "Miguel de Cervantes"},
                 "promoted": "True",
@@ -90,7 +90,7 @@ def test_create_listing_missing_display_images():
                 "views": 0,
                 "reference": "123456789",
                 "location": "Madrid",
-                "merchant_id": "123456789",
+                "account_id": "123456789",
                 "category": "Books",
                 "additional_details": {"pages": "1000", "language": "Spanish", "author": "Miguel de Cervantes"},
                 "promoted": "True",
@@ -105,7 +105,7 @@ def test_create_listing_missing_views():
                 "display_images": ["https://cdn.24.co.za/files/Cms/General/d/10899/6437b5a468da44f2a0e78b8b204d81f7.jpg", "https://cdn.24.co.za/files/Cms/General/d/10899/6437b5a468da44f2a0e78b8b204d81f7.jpg"],
                 "reference": "123456789",
                 "location": "Madrid",
-                "merchant_id": "123456789",
+                "account_id": "123456789",
                 "category": "Books",
                 "additional_details": {"pages": "1000", "language": "Spanish", "author": "Miguel de Cervantes"},
                 "promoted": "True",
@@ -120,7 +120,7 @@ def test_create_listing_missing_reference():
                 "display_images": ["https://cdn.24.co.za/files/Cms/General/d/10899/6437b5a468da44f2a0e78b8b204d81f7.jpg", "https://cdn.24.co.za/files/Cms/General/d/10899/6437b5a468da44f2a0e78b8b204d81f7.jpg"],
                 "views": 0,
                 "location": "Madrid",
-                "merchant_id": "123456789",
+                "account_id": "123456789",
                 "category": "Books",
                 "additional_details": {"pages": "1000", "language": "Spanish", "author": "Miguel de Cervantes"},
                 "promoted": "True",
@@ -135,7 +135,7 @@ def test_create_listing_missing_location():
                 "display_images": ["https://cdn.24.co.za/files/Cms/General/d/10899/6437b5a468da44f2a0e78b8b204d81f7.jpg", "https://cdn.24.co.za/files/Cms/General/d/10899/6437b5a468da44f2a0e78b8b204d81f7.jpg"],
                 "views": 0,
                 "reference": "123456789",
-                "merchant_id": "123456789",
+                "account_id": "123456789",
                 "category": "Books",
                 "additional_details": {"pages": "1000", "language": "Spanish", "author": "Miguel de Cervantes"},
                 "promoted": "True",
@@ -143,7 +143,7 @@ def test_create_listing_missing_location():
                     })
         assert response.status_code == 422
 
-def test_create_listing_missing_merchant_id():
+def test_create_listing_missing_account_id():
     with TestClient(app) as client:
         response = client.post("/listing/", json={
                 "title": "Don Quixote",
@@ -166,7 +166,7 @@ def test_create_listing_missing_category():
                 "views": 0,
                 "reference": "123456789",
                 "location": "Madrid",
-                "merchant_id": "123456789",
+                "account_id": "123456789",
                 "additional_details": {"pages": "1000", "language": "Spanish", "author": "Miguel de Cervantes"},
                 "promoted": "True",
                 "status": "activated",
@@ -181,7 +181,7 @@ def test_create_listing_missing_additional_details():
                 "views": 0,
                 "reference": "123456789",
                 "location": "Madrid",
-                "merchant_id": "123456789",
+                "account_id": "123456789",
                 "category": "Books",
                 "promoted": "True",
                 "status": "activated",
@@ -196,7 +196,7 @@ def test_create_listing_missing_status():
                 "views": 0,
                 "reference": "123456789",
                 "location": "Madrid",
-                "merchant_id": "123456789",
+                "account_id": "123456789",
                 "category": "Books",
                 "additional_details": {"pages": "1000", "language": "Spanish", "author": "Miguel de Cervantes"},
                 "promoted": "True",
@@ -211,7 +211,7 @@ def test_get_listing():
                 "views": 0,
                 "reference": "123456789",
                 "location": "Madrid",
-                "merchant_id": "123456789",
+                "account_id": "123456789",
                 "category": "Books",
                 "additional_details": {"pages": "1000", "language": "Spanish", "author": "Miguel de Cervantes"},
                 "promoted": "True",
@@ -253,7 +253,7 @@ def test_delete_listing():
                 "views": 0,
                 "reference": "123456789",
                 "location": "Madrid",
-                "merchant_id": "123456789",
+                "account_id": "123456789",
                 "category": "Books",
                 "additional_details": {"pages": "1000", "language": "Spanish", "author": "Miguel de Cervantes"},
                 
