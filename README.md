@@ -33,6 +33,7 @@ docker-compose up
 ## Database Schemas
 
 <a href="https://ibb.co/zhRQ1Mq"><img src="https://i.ibb.co/kg85p7N/ieloro-schemas.png" alt="ieloro-schemas" border="0"></a>
+<br>
 <i>THIS IS NOT THE FINAL SCHEMA AND IS SUBJECT TO CHANGE IN THE COMING DAYS </i>
 
 Each microservice has its own MongoDB database and can only be accessed through their respective endpoints
@@ -45,12 +46,12 @@ languages that talk to each other over HTTP & WebSockets.
 [architecture_diagram_here]
 
 | Service                              | Specific Tech                       | Description                                                             |
-| ------------------------------------ | ----------------------------------- | ----------------------------------------------------------------------- | --- |
+| ------------------------------------ | ----------------------------------- | ----------------------------------------------------------------------- | 
 | [gateway](./src/gateway_service)     | JWT                                 | Handles Authentication and offers Authorization for protected services. |
 | [listing](./src/listing_service)     | PyMongo                             | Core service                                                            |
 | [users](./src/)                      | Pymongo, JWT                        | Offers endpoint for user creation etc                                   |
 | [messenger](./src/messenger_service) | Pymongo, Redis, FastAPI Web Sockets | Handles realtime chat                                                   |
-| [email](./src/email_service)         | SendGrid                            | Offers endpoints for sending email verification etc                     |     |
+| [email](./src/email_service)         | SendGrid                            | Offers endpoints for sending email verification etc                     |  
 
 <i>Few more services coming up</i>
 
