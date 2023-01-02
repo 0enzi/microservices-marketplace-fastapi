@@ -1,0 +1,8 @@
+fastapi[all]
+odmantic
+pymongo[srv]
+python-dotenv
+pytest
+pydantic
+passlib
+bcrypt
