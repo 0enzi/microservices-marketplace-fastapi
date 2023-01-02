@@ -19,8 +19,8 @@ Listing Model Attributes as followed:
 5. views, how many times the listing has been viewed
 6. reference, used by users to refer to a specific listing
 7. location, city where it is sold
-8. account_id, user_id of owner of the listing used to get more info on who's selling
+8. account_id, user_id of owner of listing and is used to get more info on who's selling
 9. category, type of listing eg, job posting (useful for dynamic layout at checkout where the listing will be shown to be different depending on the type)
 10. additional_details, more information on the listing
-11. promoted, s can choose to promote and rank higher in search
+11. promoted, listing owners can choose to promote and rank higher in search
 12. status fields, is it activated, inactive or pending
