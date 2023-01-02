@@ -1,36 +1,23 @@
 version: "3.7"
 
 services:
-  gateway:
-    image: ieloro-gateway
-    command: sh -c "uvicorn main:app --reload --host 0.0.0.0 --port 8000"
-    build:
-      context: ./gateway_service
-      dockerfile: Dockerfile
-    env_file:
-      - ./gateway_service/.env
-    ports:
-      - 8001:8000
-    depends_on:
-      - users
-      - listings
-    volumes:
-      - ./gateway_service:/app
-
   users:
     image: ieloro-users
-    command: sh -c "uvicorn main:app --reload --host 0.0.0.0 --port 8000"
+    command: sh -c "uvicorn main:app --reload --host 0.0.0.0"
     build:
       context: ./user_service
       dockerfile: Dockerfile
+
     env_file:
       - ./user_service/.env
     volumes:
       - ./user_service:/app
+    ports:
+      - 8000:8000
 
   listings:
     image: ieloro-listings
-    command: sh -c "uvicorn main:app --reload --host 0.0.0.0 --port 8000"
+    command: sh -c "uvicorn main:app --reload --host 0.0.0.0"
     build:
       context: ./listing_service
       dockerfile: Dockerfile
@@ -38,3 +25,5 @@ services:
       - ./listing_service/.env
     volumes:
       - ./listing_service:/app
+    ports:
+      - 8001:8000

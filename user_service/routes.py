@@ -7,10 +7,11 @@ from models import UsernamePasswordForm, UserForm, UserUpdate
 from auth import verify_password, get_password_hash
 
 
+
 router = APIRouter()
 
 
-@router.post('/api/login', status_code=status.HTTP_201_CREATED)
+@router.post('/auth/login', status_code=status.HTTP_201_CREATED)
 async def login(request: Request, form_data: UsernamePasswordForm):
     user_in_db = request.app.database["users"].find_one({"email": form_data.email})
 
@@ -31,34 +32,6 @@ async def login(request: Request, form_data: UsernamePasswordForm):
     # retu
     # rn user_in_db
 
-@router.post("/", response_description="Create a new user", status_code=status.HTTP_201_CREATED) #, response_model=User)
-def create_user(request: Request, user: UserForm = Body(...)):
-    user_obj = user.dict()
-
-    # 
-    user_obj.update({"account_info": {}})
-    user_obj.update({"username": user_obj['email'].split("@")[0]})
-    user_obj.update({"password": get_password_hash(user_obj['password'])})
-    user_obj.update({"created_at": datetime.datetime.now().timestamp()})
-    user_obj.update({"account_type_id": "USER"})
-    user_obj.update({"is_super_admin": False})
-    user_obj.update({"status": True})
-    user_obj.update({"email_verified": False})
-    user_obj.update({"phone_verified": False})
-    # user_obj.pop("_id")
-    
-
-    try:
-        print(request.app.database["users"].insert_one(user_obj))
-    except Exception as e:
-        print(e)
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="User already exists")
-
-    # created_user = request.app.database["users"].find_one({
-    #     "_id": new_user.inserted_id
-    # })
-
-    return "new_user"
 
 
 
