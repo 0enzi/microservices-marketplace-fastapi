@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 class ListingForm(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
     title: str = Field(...)
-    display_images: List[str] = Field(...)
+    display_images: list[str] = Field(...)
     views: int = Field(...)
     reference: str = Field(...)
     location: str = Field(...)

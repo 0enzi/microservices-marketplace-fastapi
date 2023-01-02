@@ -3,7 +3,7 @@ version: "3.7"
 services:
   gateway:
     image: ieloro-gateway
-    command: sh -c "uvicorn main:app --reload --host 0.0.0.0"
+    command: sh -c "uvicorn main:app --reload --host 0.0.0.0 --port 8000"
     build:
       context: ./gateway_service
       dockerfile: Dockerfile
@@ -19,7 +19,7 @@ services:
 
   users:
     image: ieloro-users
-    command: sh -c "uvicorn main:app --reload --host 0.0.0.0"
+    command: sh -c "uvicorn main:app --reload --host 0.0.0.0 --port 8000"
     build:
       context: ./user_service
       dockerfile: Dockerfile
@@ -30,7 +30,7 @@ services:
 
   listings:
     image: ieloro-listings
-    command: sh -c "uvicorn main:app --reload --host 0.0.0.0"
+    command: sh -c "uvicorn main:app --reload --host 0.0.0.0 --port 8000"
     build:
       context: ./listing_service
       dockerfile: Dockerfile
