@@ -4,7 +4,7 @@
 
 # ielo backend
 
-<i>=> Backend api microservice for the social commerce application **ielo**
+<i>=> Backend api microservices for the social commerce application **ielo**
 </i>
 
 ## Brief
