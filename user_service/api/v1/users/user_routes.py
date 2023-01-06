@@ -1,11 +1,25 @@
 from fastapi import APIRouter, Depends, status, Response, HTTPException, Request
 import json
 
+from fastapi import APIRouter, Body, Request, Response, HTTPException, status
+
+
+import datetime
+from models import UserInDB as User
+from models import UsernamePasswordForm, UserForm, UserUpdate
+from auth import verify_password, get_password_hash
 router = APIRouter()
 
 CACHE_KEY_PREFIX = "user:"
 
-@router.get("/users/{user_id}")
+
+'''
+
+BASIC CRUD OPERATIONS FOR USERS
+
+'''
+
+@router.get("/{user_id}")
 def get_user(request: Request, user_id: str):
     # Check if the user is in the cache
     cache_key = CACHE_KEY_PREFIX + user_id
@@ -60,28 +74,54 @@ async def create_user(request: Request, user: UserForm = Body(...)):
     request.app.redis_client.set(cache_key, user_json)
     created_user = request.app.database["users"].find_one({"_id": new_user.inserted_id})
 
-    # return created_user
+    
     return created_user
 
 
-@router.put("/users/{user_id}")
-def update_user(user_id: str, user: dict):
-    # Update the user in the database
+@router.put("/{user_id}")
+def update_user(request: Request, user_id: str, user: dict):
+
     result = request.app.database["users"].update_one({"_id": user_id}, {"$set": user})
     if result.modified_count == 0:
         raise HTTPException(status_code=404, detail="User not found")
 
-    # Update the user in the cache
-    cache_key = CACHE_KEY_PREFIX + user_id
-    redis_client.set(cache_key, json.dumps(user))
 
-@router.delete("/users/{user_id}")
-def delete_user(user_id: str):
-    # Delete the user from the database
-    result = request.mongodbdatabase["users"].delete_one({"_id": user_id})
+    cache_key = CACHE_KEY_PREFIX + user_id
+    request.app.redis_client.set(cache_key, json.dumps(user))
+
+@router.delete("/{user_id}")
+def delete_user(request: Request,user_id: str):
+   
+    result = request.app.database["users"].delete_one({"_id": user_id})
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="User not found")
 
-    # Delete the user from the cache
+  
     cache_key = CACHE_KEY_PREFIX + user_id
     request.app.redis_client.delete(cache_key)
+
+
+""""
+
+AUTHENTICATION
+
+"""
+
+# @router.post("/login")
+# def login(request: Request, user: UsernamePasswordForm = Body(...)):
+#     # Get the user from the database
+#     user = request.app.database["users"].find_one({"email": user.email})
+#     if user is None:
+#         raise HTTPException(status_code=400, detail="Incorrect email or password")
+
+#     # Verify the password
+#     if not verify_password(user["password"], user.password):
+#         raise HTTPException(status_code=400, detail="Incorrect email or password")
+
+#     # Generate a JWT token and return it
+#     return {"access_token": create_access_token(user["_id"], request.app.jwt_secret, request.app.jwt_algorithm)}
+
+
+"""
+OTHER USER OPERATIONS
+"""
