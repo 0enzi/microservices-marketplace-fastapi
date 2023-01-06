@@ -2,14 +2,14 @@
 <img src="https://i.ibb.co/C7Nm7Qb/ieloro-mini-logo.png" alt="ieloro-mini-logo" border="0">
 </p>
 
-# ieoloro backend
+# ieloro backend
 
 <i>=> Backend api microservice for the social commerce application **ieloro**
 </i>
 
 ## Brief
 
-The **ieoloro_backend** repository consists of an 10-tier microservices apis all working together to build a web-base marketplace where merchants can sell/upload listings in different categories such as job posts, goods etc.
+The **ieloro_backend** repository consists of an 10-tier microservices apis all working together to build a web-base marketplace where merchants can sell/upload listings in different categories such as job posts, goods etc.
 
 ## Screenshots
 
@@ -46,12 +46,12 @@ languages that talk to each other over HTTP & WebSockets.
 [architecture_diagram_here]
 
 | Service                              | Specific Tech                       | Description                                                             |
-| ------------------------------------ | ----------------------------------- | ----------------------------------------------------------------------- | 
+| ------------------------------------ | ----------------------------------- | ----------------------------------------------------------------------- |
 | [gateway](./src/gateway_service)     | JWT                                 | Handles Authentication and offers Authorization for protected services. |
 | [listing](./src/listing_service)     | PyMongo                             | Core service                                                            |
 | [users](./src/)                      | Pymongo, JWT                        | Offers endpoint for user creation etc                                   |
 | [messenger](./src/messenger_service) | Pymongo, Redis, FastAPI Web Sockets | Handles realtime chat                                                   |
-| [email](./src/email_service)         | SendGrid                            | Offers endpoints for sending email verification etc                     |  
+| [email](./src/email_service)         | SendGrid                            | Offers endpoints for sending email verification etc                     |
 
 <i>Few more services coming up</i>
 
