@@ -1,6 +1,6 @@
 # Users Microservice
 
-**This microservice is handles user creation, management and is used by gateway service to authorize as well as Admin for user related operations.**
+**This microservice handles user creation, management and is used by gateway service to authorize as well as Admin for user related operations.**
 
 ## Tech Stack
 
