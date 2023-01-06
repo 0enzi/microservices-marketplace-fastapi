@@ -1,7 +1,7 @@
 from fastapi import FastAPI, APIRouter, Body, Request, Response, HTTPException, status
 from dotenv import dotenv_values
 from pymongo import MongoClient
-from routes import router as user_router
+from .api.v1.users import user_routes
 
 
 import datetime
@@ -11,7 +11,7 @@ from auth import verify_password, get_password_hash
 config = dotenv_values(".env")
 
 app = FastAPI()
-app.include_router(api_router, prefix=settings.API_V1_STR)
+app.include_router(user_routes, prefix=settings.API_V1_STR)
 
 # Connect to MongoDB
 client = MongoClient("mongodb://localhost:27017/")
