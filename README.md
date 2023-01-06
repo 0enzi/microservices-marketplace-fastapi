@@ -2,14 +2,14 @@
 <img src="https://i.ibb.co/C7Nm7Qb/ieloro-mini-logo.png" alt="ieloro-mini-logo" border="0">
 </p>
 
-# ieloro backend
+# ielo backend
 
-<i>=> Backend api microservice for the social commerce application **ieloro**
+<i>=> Backend api microservice for the social commerce application **ielo**
 </i>
 
 ## Brief
 
-The **ieloro_backend** repository consists of an 10-tier microservices apis all working together to build a web-base marketplace where merchants can sell/upload listings in different categories such as job posts, goods etc.
+The **ielo backend** repository consists of an 10-tier microservices apis all working together to build a web-base marketplace where users can sell/buy/rent listings in different categories such as job posts, goods etc.
 
 ## Screenshots
 
@@ -40,7 +40,7 @@ Each microservice has its own MongoDB database and can only be accessed through 
 
 ## Architecture
 
-**Online Boutique** is composed of 10 microservices written in python programming
+**ielo** is composed of 10 microservices written in python programming
 languages that talk to each other over HTTP & WebSockets.
 
 [architecture_diagram_here]
