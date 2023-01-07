@@ -25,17 +25,17 @@ Listing Model Attributes as followed:
 11. promoted, listing owners can choose to promote and rank higher in search
 12. status fields:
  <ol>
-  <li>a. draft - when creating or editing a listing</li>
-  <li>b. pending - when the listing is pending for an admin approval</li>
-  <li>c. rejected - when an admin is rejecting an listing because of a reason as follows:</li>
+  <li>draft - when creating or editing a listing</li>
+  <li>pending - when the listing is pending for an admin approval</li>
+  <li>rejected - when an admin is rejecting an listing because of a reason as follows:</li>
   <ol>
-   <li>c.1 the listing violated our terms and conditions</li>
-   <li>c.2 the listing received a lot of reports on the site by other users and indeed a moderator sees that the listing is violating our terms and conditions</li>
-   <li>c.3 the listing is incomplete</li>
-   <li>c.4 other compliance reasons</li>
+   <li>the listing violated our terms and conditions</li>
+   <li>the listing received a lot of reports on the site by other users and indeed a moderator sees that the listing is violating our terms and conditions</li>
+   <li>the listing is incomplete</li>
+   <li>other compliance reasons</li>
   </ol>
- <li>d. activated - when the listing is approved by an admin and is active on the site</li>
- <li>e. archived - when is expired, manually archived by an admin or by the listing owner</li>
- <li>f. purged - will be still kept in our database for another 30 days after deletion from the site but it will not be displayed on the site both frontend and admin panel - after this period this listing will be permanently deleted</li>
+ <li>activated - when the listing is approved by an admin and is active on the site</li>
+ <li>archived - when is expired, manually archived by an admin or by the listing owner</li>
+ <li>purged - will be still kept in our database for another 30 days after deletion from the site but it will not be displayed on the site both frontend and admin panel - after this period this listing will be permanently deleted</li>
 </ol>
   
