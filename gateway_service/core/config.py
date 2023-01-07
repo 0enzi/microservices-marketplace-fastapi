@@ -5,13 +5,13 @@ from pydantic import BaseSettings
 import os
 from dotenv import load_dotenv
 load_dotenv()
-DATABASE_URL = os.getenv('DATABASE_URL')
+
 
 class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
-    PROJECT_NAME: str = "IeloroChatAPI"
+    PROJECT_NAME: str = "IeloroGatewayAPI"
     SECRET_KEY: str = secrets.token_urlsafe(32)
-    SQLALCHEMY_DATABASE_URI: str = DATABASE_URL
+
 
     class Config:
         env_file = ".env"
