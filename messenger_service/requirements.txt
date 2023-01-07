@@ -74,7 +74,6 @@ rsa==4.8
 schedule==1.1.0
 six==1.16.0
 sniffio==1.2.0
-SQLAlchemy==1.4.37
 stack-data==0.1.4
 starlette==0.17.1
 tomli==1.2.3

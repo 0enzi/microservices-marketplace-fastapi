@@ -11,7 +11,6 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     PROJECT_NAME: str = "IeloroChatAPI"
     SECRET_KEY: str = secrets.token_urlsafe(32)
-    SQLALCHEMY_DATABASE_URI: str = DATABASE_URL
 
     class Config:
         env_file = ".env"
