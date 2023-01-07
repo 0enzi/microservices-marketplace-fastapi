@@ -26,10 +26,9 @@ def get_user(request: Request, user_id: str):
     cache_key = CACHE_KEY_PREFIX + user_id
     cached_user = request.app.redis_client.get(cache_key)
     if cached_user:
-        # Return the user from the cache
         return json.loads(cached_user)
 
-  
+
     user = request.app.database["users"].find_one({"_id": user_id})
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
@@ -38,12 +37,14 @@ def get_user(request: Request, user_id: str):
     request.app.redis_client.set(cache_key, json.dumps(user))
     return user
 
+
 @router.get("/@{username}")
-def get_user(request: Request, username: str):
+def get_username(request: Request, username: str):
     user = request.app.database["users"].find_one({"username": username})
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return user
+
 
 @router.post("/", response_description="Create a new user", status_code=status.HTTP_201_CREATED, response_model=UserResponse)
 async def create_user(request: Request, user: UserForm = Body(...)):
