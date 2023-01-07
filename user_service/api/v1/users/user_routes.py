@@ -29,7 +29,7 @@ def get_user(request: Request, user_id: str):
         # Return the user from the cache
         return json.loads(cached_user)
 
-    # If the user is not in the cache, get it from the database
+  
     user = request.app.database["users"].find_one({"_id": user_id})
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
@@ -38,7 +38,7 @@ def get_user(request: Request, user_id: str):
     request.app.redis_client.set(cache_key, json.dumps(user))
     return user
 
-@router.get("/username/{username}")
+@router.get("/@{username}")
 def get_user(request: Request, username: str):
     # Check if the user is in the cache
   
