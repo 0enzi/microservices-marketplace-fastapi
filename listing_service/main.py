@@ -1,24 +1,29 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, APIRouter, Body, Request, Response, HTTPException, status
+from dotenv import dotenv_values
+from pymongo import MongoClient
+from api.v1 import api_router as user_routes
+import redis, datetime
 
-# from auth.jwt_bearer import JWTBearer
-# from config.config import initiate_database
-# from routes.admin import router as AdminRouter
-# from routes.student import router as StudentRouter
+config = dotenv_values(".env")
 
 app = FastAPI()
-
-# token_listener = JWTBearer()
-
-
-# @app.on_event("startup")
-# async def start_database():
-#     await initiate_database()
+app.include_router(user_routes, prefix="/api/v1")
 
 
-@app.get("/", tags=["Root"])
-async def read_root():
-    return {"message": "Welcome to this fantastic app."}
+
+@app.on_event("startup")
+async def startup():
+    # Connect to MongoDB
+    app.mongo_client = MongoClient(config['MONGODB_URI'], tls=True, tlsAllowInvalidCertificates=True)
+    app.database = app.mongo_client["ieloro_users_db"]
+
+    # Connect to Redis
+    app.redis_client = redis.Redis(host='docker.for.mac.localhost', port=6379)
+
+    print("Connected to MongoDB and Redis", app.database, app.redis_client)
+ 
 
 
-# app.include_router(AdminRouter, tags=["Administrator"], prefix="/admin")
-# app.include_router(StudentRouter, tags=["Students"], prefix="/student", dependencies=[Depends(token_listener)])
+
+
+# app.include_router(user_router, tags=["users"], prefix="/user")
