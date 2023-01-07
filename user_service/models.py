@@ -56,4 +56,16 @@ class UserUpdate(Model):
         collection = "users"
 
 
-    
+class UserResponse(BaseModel):
+    account_info: dict
+    username: str
+    email: str
+    phone: str 
+    location: str
+    created_at: str
+    account_type_id: str
+    is_super_admin: bool
+    status: bool
+    email_verified: bool
+    phone_verified: bool
+
