@@ -52,6 +52,7 @@ languages that talk to each other over HTTP & WebSockets.
 | [users](./src/)                      | Pymongo, JWT                        | Offers endpoint for user creation etc                                   |
 | [messenger](./src/messenger_service) | Pymongo, Redis, FastAPI Web Sockets | Handles realtime chat                                                   |
 | [email](./src/email_service)         | SendGrid                            | Offers endpoints for sending email verification etc                     |
+| [search](./src/search_service)       | PyMongo                             | Offers endpoints for frontend to efficiently search listings and query  |
 
 <i>Few more services coming up</i>
 

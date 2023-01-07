@@ -36,6 +36,7 @@ class UserInDB(Model):
     status: bool
     email_verified: bool
     phone_verified: bool
+    following_categories: list
 
 
     class Config:
@@ -51,6 +52,7 @@ class UserUpdate(Model):
     location: str 
     account_type: str 
     status: bool 
+    following_categories: list
 
     class Config:
         collection = "users"
@@ -68,4 +70,5 @@ class UserResponse(BaseModel):
     status: bool
     email_verified: bool
     phone_verified: bool
+    following_categories: list
 
