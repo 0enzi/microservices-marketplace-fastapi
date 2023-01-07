@@ -2,12 +2,13 @@ from fastapi import APIRouter, Depends, status, Response, HTTPException, Request
 import json
 
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
-
+from bson.json_util import dumps, loads
 
 import datetime
 from models import UserInDB as User
 from models import UsernamePasswordForm, UserForm, UserUpdate
-from auth import verify_password, get_password_hash
+from models import UserResponse
+from .auth import verify_password, get_password_hash
 router = APIRouter()
 
 CACHE_KEY_PREFIX = "user:"
@@ -37,7 +38,8 @@ def get_user(request: Request, user_id: str):
     request.app.redis_client.set(cache_key, json.dumps(user))
     return user
 
-@router.post("/", response_description="Create a new user", status_code=status.HTTP_201_CREATED) # response_model=UserResponse)
+
+@router.post("/", response_description="Create a new user", status_code=status.HTTP_201_CREATED, response_model=UserResponse)
 async def create_user(request: Request, user: UserForm = Body(...)):
     
     existing_user = request.app.database["users"].find_one({"email": user.email})
@@ -64,16 +66,17 @@ async def create_user(request: Request, user: UserForm = Body(...)):
     
     # Insert the new user into the database and Cache using redis
     new_user = request.app.database["users"].insert_one(user_obj)
-    user_json = json.dumps(user_obj)
-    print(user_json)
+    user_json = dumps(user_obj)
+
 
     cache_key = CACHE_KEY_PREFIX + str(new_user.inserted_id)
     
     print("USER KEY", cache_key, "USER KEY") 
     
     request.app.redis_client.set(cache_key, user_json)
-    created_user = request.app.database["users"].find_one({"_id": new_user.inserted_id})
 
+    created_user = request.app.database["users"].find_one({"_id": loads(user_json).get("_id")})
+    print(loads(user_json)['_id'])
     
     return created_user
 
