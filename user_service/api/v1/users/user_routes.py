@@ -20,7 +20,7 @@ BASIC CRUD OPERATIONS FOR USERS
 
 '''
 
-@router.get("/{user_id}")
+@router.get("/id/{user_id}")
 def get_user(request: Request, user_id: str):
     # Check if the user is in the cache
     cache_key = CACHE_KEY_PREFIX + user_id
@@ -38,6 +38,17 @@ def get_user(request: Request, user_id: str):
     request.app.redis_client.set(cache_key, json.dumps(user))
     return user
 
+@router.get("/username/{username}")
+def get_user(request: Request, username: str):
+    # Check if the user is in the cache
+  
+    # If the user is not in the cache, get it from the database
+    user = request.app.database["users"].find_one({"username": username})
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
+  
+    return user
 
 @router.post("/", response_description="Create a new user", status_code=status.HTTP_201_CREATED, response_model=UserResponse)
 async def create_user(request: Request, user: UserForm = Body(...)):
