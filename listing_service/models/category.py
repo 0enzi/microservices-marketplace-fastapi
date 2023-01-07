@@ -25,6 +25,7 @@ class CategoryInDB(Model):
     active: str
     created_at: str
     updated_at: str
+    
 
     class Config:
         collection = "categories"
