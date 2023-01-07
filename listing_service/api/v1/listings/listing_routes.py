@@ -18,88 +18,88 @@ BASIC CRUD OPERATIONS FOR LISTINGS
 
 '''
 
-# @router.get("/{user_id}")
-# def get_user(request: Request, user_id: str):
-#     # Check if the user is in the cache
-#     cache_key = CACHE_KEY_PREFIX + user_id
-#     cached_user = request.app.redis_client.get(cache_key)
-#     if cached_user:
-#         # Return the user from the cache
-#         return json.loads(cached_user)
+@router.get("/{listing_id}")
+def get_listing(request: Request, listing_id: str):
+    # Check if the listing is in the cache
+    cache_key = CACHE_KEY_PREFIX + listing_id
+    cached_listing = request.app.redis_client.get(cache_key)
+    if cached_listing:
+        # Return the listing from the cache
+        return json.loads(cached_listing)
 
-#     # If the user is not in the cache, get it from the database
-#     user = request.app.database["users"].find_one({"_id": user_id})
-#     if user is None:
-#         raise HTTPException(status_code=404, detail="User not found")
+    # If the listing is not in the cache, get it from the database
+    listing = request.app.database["listings"].find_one({"_id": listing_id})
+    if listing is None:
+        raise HTTPException(status_code=404, detail="User not found")
 
-#     # Add the user to the cache and return it
-#     request.app.redis_client.set(cache_key, json.dumps(user))
-#     return user
+    # Add the listing to the cache and return it
+    request.app.redis_client.set(cache_key, json.dumps(listing))
+    return listing
 
 
-# @router.post("/", response_description="Create a new user", status_code=status.HTTP_201_CREATED, response_model=UserResponse)
-# async def create_user(request: Request, user: UserForm = Body(...)):
+@router.post("/", response_description="Create a new listing", status_code=status.HTTP_201_CREATED, response_model=UserResponse)
+async def create_listing(request: Request, listing: UserForm = Body(...)):
     
-#     existing_user = request.app.database["users"].find_one({"email": user.email})
-#     if existing_user is not None:
-#         raise HTTPException(status_code=400, detail="A user with this email already exists")
+    existing_listing = request.app.database["listings"].find_one({"email": listing.email})
+    if existing_listing is not None:
+        raise HTTPException(status_code=400, detail="A listing with this email already exists")
 
 
-#     # Parse and autofill remaining fields before saving to db
-#     user_obj = {
-#         "account_info": {},
-#         "username": user.email.split("@")[0],
-#         "password": get_password_hash(user.password),
-#         "created_at": datetime.datetime.now().timestamp(),
-#         "account_type_id": "USER",
-#         "is_super_admin": False,
-#         "status": True,
-#         "email_verified": False,
-#         "phone_verified": False,
-#     }
+    # Parse and autofill remaining fields before saving to db
+    listing_obj = {
+        "account_info": {},
+        "listingname": listing.email.split("@")[0],
+        "password": get_password_hash(listing.password),
+        "created_at": datetime.datetime.now().timestamp(),
+        "account_type_id": "USER",
+        "is_super_admin": False,
+        "status": True,
+        "email_verified": False,
+        "phone_verified": False,
+    }
 
     
 
-#     user_obj.update(user.dict())
+    listing_obj.update(listing.dict())
     
-#     # Insert the new user into the database and Cache using redis
-#     new_user = request.app.database["users"].insert_one(user_obj)
-#     user_json = dumps(user_obj)
+    # Insert the new listing into the database and Cache using redis
+    new_listing = request.app.database["listings"].insert_one(listing_obj)
+    listing_json = dumps(listing_obj)
 
 
-#     cache_key = CACHE_KEY_PREFIX + str(new_user.inserted_id)
+    cache_key = CACHE_KEY_PREFIX + str(new_listing.inserted_id)
     
-#     print("USER KEY", cache_key, "USER KEY") 
+    print("USER KEY", cache_key, "USER KEY") 
     
-#     request.app.redis_client.set(cache_key, user_json)
+    request.app.redis_client.set(cache_key, listing_json)
 
-#     created_user = request.app.database["users"].find_one({"_id": loads(user_json).get("_id")})
-#     print(loads(user_json)['_id'])
+    created_listing = request.app.database["listings"].find_one({"_id": loads(listing_json).get("_id")})
+    print(loads(listing_json)['_id'])
     
-#     return created_user
+    return created_listing
 
 
-# @router.put("/{user_id}")
-# def update_user(request: Request, user_id: str, user: dict):
+@router.put("/{listing_id}")
+def update_listing(request: Request, listing_id: str, listing: dict):
 
-#     result = request.app.database["users"].update_one({"_id": user_id}, {"$set": user})
-#     if result.modified_count == 0:
-#         raise HTTPException(status_code=404, detail="User not found")
+    result = request.app.database["listings"].update_one({"_id": listing_id}, {"$set": listing})
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
 
 
-#     cache_key = CACHE_KEY_PREFIX + user_id
-#     request.app.redis_client.set(cache_key, json.dumps(user))
+    cache_key = CACHE_KEY_PREFIX + listing_id
+    request.app.redis_client.set(cache_key, json.dumps(listing))
 
-# @router.delete("/{user_id}")
-# def delete_user(request: Request,user_id: str):
+@router.delete("/{listing_id}")
+def delete_listing(request: Request,listing_id: str):
    
-#     result = request.app.database["users"].delete_one({"_id": user_id})
-#     if result.deleted_count == 0:
-#         raise HTTPException(status_code=404, detail="User not found")
+    result = request.app.database["listings"].delete_one({"_id": listing_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
 
   
-#     cache_key = CACHE_KEY_PREFIX + user_id
-#     request.app.redis_client.delete(cache_key)
+    cache_key = CACHE_KEY_PREFIX + listing_id
+    request.app.redis_client.delete(cache_key)
 
 
 """"
@@ -109,18 +109,18 @@ AUTHENTICATION
 """
 
 # @router.post("/login")
-# def login(request: Request, user: UsernamePasswordForm = Body(...)):
-#     # Get the user from the database
-#     user = request.app.database["users"].find_one({"email": user.email})
-#     if user is None:
+# def login(request: Request, listing: UsernamePasswordForm = Body(...)):
+#     # Get the listing from the database
+#     listing = request.app.database["listings"].find_one({"email": listing.email})
+#     if listing is None:
 #         raise HTTPException(status_code=400, detail="Incorrect email or password")
 
 #     # Verify the password
-#     if not verify_password(user["password"], user.password):
+#     if not verify_password(listing["password"], listing.password):
 #         raise HTTPException(status_code=400, detail="Incorrect email or password")
 
 #     # Generate a JWT token and return it
-#     return {"access_token": create_access_token(user["_id"], request.app.jwt_secret, request.app.jwt_algorithm)}
+#     return {"access_token": create_access_token(listing["_id"], request.app.jwt_secret, request.app.jwt_algorithm)}
 
 
 """

@@ -1,9 +1,11 @@
 import uuid
 from typing import List, Optional
 from pydantic import BaseModel, Field
+import uuid
+from odmantic import EmbeddedModel, Model
+
 
 class Listing(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4, alias="_id")
     title: str = Field(...)
     display_images: List[str] = Field(...)
     views: int = Field(...)
@@ -15,7 +17,6 @@ class Listing(BaseModel):
     promoted: bool = Field(...)
     status: str = Field(...) # activated, unactivated, pending)
     
-
     class Config:
         allow_population_by_field_name = True
         
@@ -40,6 +41,24 @@ class Listing(BaseModel):
         }
 
 
+class ListingInDB(Model):
+    account_id: str
+    display_images: List[str]
+    title: str
+    views: int
+    reference: str
+    location: str
+    category_id: str
+    additional_details: dict
+    promoted: bool
+    status: str # (activated, unactivated, pending)
+    created_at: str
+    updated_at: str
+
+    class Config:
+        collection = "listings"
+
+
 class ListingUpdate(BaseModel):
     title: Optional[str]
     country: Optional[str] 
@@ -59,80 +78,47 @@ class ListingUpdate(BaseModel):
             }
         }
 
-import uuid
-from odmantic import EmbeddedModel, Model
-from pydantic import BaseModel
 
-
-class AccountType(Model):
-    account_type_name: str
-    permissions: list
-    open_for_registration: bool
-    status: bool
-
-    class Config:
-        collection = "accountTypes"
-
-
-class UsernamePasswordForm(BaseModel):
-    email: str 
-    password: str
-
-
-class UserForm(UsernamePasswordForm): 
-    phone: str 
-    location: str 
-    
-
-class UserInDB(Model):
-    account_info: dict
-    username: str
-    email: str
-    hashed_password: str
-    phone: str 
+class ListingForm(BaseModel):
+    title: str
+    display_images: List[str] # handled by frontend after successful upload
+    views: int 
+    # reference: str
     location: str
-    created_at: str
-    account_type_id: str
-    is_super_admin: bool
-    status: bool
-    email_verified: bool
-    phone_verified: bool
-    following_categories: list
-    following_users: list
-
+    category_id: str
+    additional_details: dict
+    promoted: bool
+    status: str # (activated, unactivated, pending)
 
     class Config:
-        collection = "users"
+        schema_extra = {
+            "example": {
+                "title": "Don Quixote",
+                "display_images": ["https://www.google.com", "https://www.google.com"],
+                "views": 0,
+                "reference": "123456",
+                "location": "Madrid, Spain",
+                "category_id": "f3r43-4f3r4-3f4r3-4f3r4",
+                "additional_details": {
+                    "author": "Miguel de Cervantes",
+                    "year": 1605,
+                    "pages": 1000,
+                },
+                "promoted": "True",
+                "status": "activated",
+            }
+        }
 
- 
-class UserUpdate(Model):
-    name: str 
-    email: str 
-    phone: str 
-    email_verified: bool 
-    phone_verified: bool 
-    location: str 
-    account_type: str 
-    status: bool 
-    following_categories: list
-    following_list: list
 
-    class Config:
-        collection = "users"
-
-
-class UserResponse(BaseModel):
-    account_info: dict
-    username: str
-    email: str
-    phone: str 
+class ListingResponse(BaseModel):
+    title: str
+    display_images: List[str]
+    views: int
+    reference: str
     location: str
+    category_id: str
+    additional_details: dict
+    promoted: bool
+    status: str # (activated, unactivated, pending)
     created_at: str
-    account_type_id: str
-    is_super_admin: bool
-    status: bool
-    email_verified: bool
-    phone_verified: bool
-    following_categories: list
-    following_list: list
-
+    updated_at: str
