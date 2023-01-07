@@ -17,7 +17,7 @@ html = """
         <title>Chat</title>
     </head>
     <body>
-        <h1>Chately [WebSockets Lab]</h1>
+        <h1>Ieoloro [WebSockets Lab]</h1>
         <form action="" onsubmit="sendMessage(event)">
             <label>Contact ID: <input type="text" id="itemId" autocomplete="off" value="Ali"/></label>
             <label>Token: <input type="text" id="token" autocomplete="off" value=""/></label>
