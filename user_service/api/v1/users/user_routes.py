@@ -99,6 +99,7 @@ def update_user(request: Request, user_id: str, user: dict):
     cache_key = CACHE_KEY_PREFIX + user_id
     request.app.redis_client.set(cache_key, json.dumps(user))
 
+
 @router.delete("/{user_id}")
 def delete_user(request: Request,user_id: str):
    

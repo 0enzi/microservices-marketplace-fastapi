@@ -2,6 +2,7 @@ import json
 import datetime, time
 import random
 import string
+from typing import List
 from bson.json_util import dumps, loads
 
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
@@ -25,6 +26,20 @@ def generate_reference():
     # Generate a random string of length 8
     reference = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
     return "ieloro:"+reference
+
+
+# get all listings
+@router.get("/", response_description="List all listings") #, response_model=List[ListingResponse])
+def get_listings(request: Request):
+    listing_dict = []
+    listings = request.app.database["listings"].find()
+
+    for listing in listings:
+        listing['id'] = str(listing['_id'])
+        listing_dict.append(ListingResponse(**listing))
+  
+    return listing_dict
+
 
 @router.get("/{listing_id}")
 def get_listing(request: Request, listing_id: str):
@@ -113,6 +128,7 @@ def update_listing(request: Request, listing_id: str, listing: dict):
 
     cache_key = CACHE_KEY_PREFIX + listing_id
     request.app.redis_client.set(cache_key, json.dumps(listing))
+
 
 @router.delete("/{listing_id}")
 def delete_listing(request: Request,listing_id: str):

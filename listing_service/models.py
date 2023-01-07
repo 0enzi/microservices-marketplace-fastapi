@@ -5,7 +5,6 @@ import uuid
 from odmantic import EmbeddedModel, Model
 
 
-
 class Listing(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
     title: str = Field(...)
