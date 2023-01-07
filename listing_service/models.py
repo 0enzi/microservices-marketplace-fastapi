@@ -1,6 +1,10 @@
 import uuid
 from typing import List, Optional
 from pydantic import BaseModel, Field
+import uuid
+from odmantic import EmbeddedModel, Model
+
+
 
 class Listing(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
