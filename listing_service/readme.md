@@ -24,14 +24,18 @@ Listing Model Attributes as followed:
 10. additional_details, more information on the listing
 11. promoted, listing owners can choose to promote and rank higher in search
 12. status fields:
- a. draft - when creating or editing a listing
- b. pending - when the listing is pending for an admin approval
- c. rejected - when an admin is rejecting an listing because of a reason as follows:
-  c.1 the listing violated our terms and conditions
-  c.2 the listing received a lot of reports on the site by other users and indeed a moderator sees that the listing is violating our terms and conditions
-  c.3 the listing is incomplete
-  c.4 other compliance reasons
- d. activated - when the listing is approved by an admin and is active on the site
- e. archived - when is expired, manually archived by an admin or by the listing owner
- f. purged - will be still kept in our database for another 30 days after deletion from the site but it will not be displayed on the site both frontend and admin panel - after this period this listing will be permanently deleted
+ <ol>
+  <li>a. draft - when creating or editing a listing</li>
+  <li>b. pending - when the listing is pending for an admin approval</li>
+  <li>c. rejected - when an admin is rejecting an listing because of a reason as follows:</li>
+  <ol>
+   <li>c.1 the listing violated our terms and conditions</li>
+   <li>c.2 the listing received a lot of reports on the site by other users and indeed a moderator sees that the listing is violating our terms and conditions</li>
+   <li>c.3 the listing is incomplete</li>
+   <li>c.4 other compliance reasons</li>
+  </ol>
+ <li>d. activated - when the listing is approved by an admin and is active on the site</li>
+ <li>e. archived - when is expired, manually archived by an admin or by the listing owner</li>
+ <li>f. purged - will be still kept in our database for another 30 days after deletion from the site but it will not be displayed on the site both frontend and admin panel - after this period this listing will be permanently deleted</li>
+</ol>
   
