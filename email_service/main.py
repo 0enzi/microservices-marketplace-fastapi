@@ -1,5 +1,6 @@
+import sys
+sys.dont_write_bytecode = True
 from fastapi import FastAPI
-
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig, MessageType
 from pydantic import EmailStr, BaseModel
 from typing import List

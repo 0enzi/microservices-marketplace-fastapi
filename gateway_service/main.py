@@ -1,3 +1,5 @@
+import sys
+sys.dont_write_bytecode = True
 from fastapi import FastAPI, status, Request, Response
 
 from conf import settings

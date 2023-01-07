@@ -1,11 +1,14 @@
 import json
-import datetime
+import datetime, time
+import random
+import string
 from bson.json_util import dumps, loads
 
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
 from fastapi import APIRouter, Depends, status, Response, HTTPException, Request
 
-
+from models.listing import ListingInDB as Listing
+from models.listing import ListingForm, ListingUpdate, ListingResponse
 
 router = APIRouter()
 
@@ -17,6 +20,11 @@ CACHE_KEY_PREFIX = "listing:"
 BASIC CRUD OPERATIONS FOR LISTINGS
 
 '''
+
+def generate_reference():
+    # Generate a random string of length 8
+    reference = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+    return "ieloro:"+reference
 
 @router.get("/{listing_id}")
 def get_listing(request: Request, listing_id: str):
@@ -37,25 +45,41 @@ def get_listing(request: Request, listing_id: str):
     return listing
 
 
-@router.post("/", response_description="Create a new listing", status_code=status.HTTP_201_CREATED, response_model=UserResponse)
-async def create_listing(request: Request, listing: UserForm = Body(...)):
-    
-    existing_listing = request.app.database["listings"].find_one({"email": listing.email})
-    if existing_listing is not None:
-        raise HTTPException(status_code=400, detail="A listing with this email already exists")
+@router.post("/", response_description="Create a new listing", status_code=status.HTTP_201_CREATED, response_model=ListingResponse)
+async def create_listing(request: Request, listing: ListingForm = Body(...)):
+    user_id = "5f9f1b9b9b9b9b9b9b9b9b9b" # random user
 
-
+    """
+    Listings 
+    account_id: str
+    display_images: List[str]
+    title: str
+    views: int
+    reference: str
+    location: str
+    category_id: str
+    additional_details: dict
+    promoted: bool
+    status: str # (activated, unactivated, pending)
+    created_at: str
+    updated_at: str
+    """
     # Parse and autofill remaining fields before saving to db
     listing_obj = {
-        "account_info": {},
-        "listingname": listing.email.split("@")[0],
-        "password": get_password_hash(listing.password),
-        "created_at": datetime.datetime.now().timestamp(),
-        "account_type_id": "USER",
-        "is_super_admin": False,
-        "status": True,
-        "email_verified": False,
-        "phone_verified": False,
+        "account_id": user_id,
+        "display_images": listing.display_images,
+        "title": listing.title,
+        "views": 0,
+        "reference": generate_reference(),
+        "location": listing.location,
+        "category_id": listing.category_id,
+        "additional_details": listing.additional_details,
+        "promoted": listing.promoted,
+        "status": "activated",
+        "created_at": time.time(),
+        "updated_at": time.time()
+    
+
     }
 
     

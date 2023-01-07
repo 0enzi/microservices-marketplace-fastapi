@@ -1,3 +1,6 @@
+import sys
+sys.dont_write_bytecode = True
+
 from fastapi import FastAPI, APIRouter, Body, Request, Response, HTTPException, status
 from dotenv import dotenv_values
 from pymongo import MongoClient
