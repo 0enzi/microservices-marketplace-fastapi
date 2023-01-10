@@ -133,7 +133,7 @@ def update_sub_category(request: Request, sub_category_id: str, sub_category: di
 @router.delete("/{sub_category_id}")
 def delete_sub_category(request: Request,sub_category_id: str):
    
-    result = request.app.database["sub_categorys"].delete_one({"_id": sub_category_id})
+    result = request.app.database["sub_categories"].delete_one({"_id": sub_category_id})
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="User not found")
 
@@ -151,7 +151,7 @@ AUTHENTICATION
 # @router.post("/login")
 # def login(request: Request, sub_category: UsernamePasswordForm = Body(...)):
 #     # Get the sub_category from the database
-#     sub_category = request.app.database["sub_categorys"].find_one({"email": sub_category.email})
+#     sub_category = request.app.database["sub_categories"].find_one({"email": sub_category.email})
 #     if sub_category is None:
 #         raise HTTPException(status_code=400, detail="Incorrect email or password")
 
