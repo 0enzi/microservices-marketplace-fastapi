@@ -28,13 +28,13 @@ def generate_reference():
     return "ieloro:"+reference
 
 
-# get all sub_categorys
-@router.get("/", response_description="List all sub_categorys") #, response_model=List[SubCategoryResponse])
-def get_sub_categorys(request: Request):
+# get all sub_categories
+@router.get("/", response_description="List all sub_categories") #, response_model=List[SubCategoryResponse])
+def get_sub_categories(request: Request):
     sub_category_dict = []
-    sub_categorys = request.app.database["sub_categorys"].find()
+    sub_categories = request.app.database["sub_categories"].find()
 
-    for sub_category in sub_categorys:
+    for sub_category in sub_categories:
         sub_category['id'] = str(sub_category['_id'])
         sub_category_dict.append(SubCategoryResponse(**sub_category))
   
@@ -51,7 +51,7 @@ def get_sub_category(request: Request, sub_category_id: str):
         return json.loads(cached_sub_category)
 
     # If the sub_category is not in the cache, get it from the database
-    sub_category = request.app.database["sub_categorys"].find_one({"_id": sub_category_id})
+    sub_category = request.app.database["sub_categories"].find_one({"_id": sub_category_id})
     if sub_category is None:
         raise HTTPException(status_code=404, detail="User not found")
 
@@ -65,7 +65,7 @@ async def create_sub_category(request: Request, sub_category: SubCategoryForm = 
     user_id = "5f9f1b9b9b9b9b9b9b9b9b9b" # random user
 
     """
-    SubCategorys 
+    SubCategories
     account_id: str
     display_images: List[str]
     title: str
@@ -102,7 +102,7 @@ async def create_sub_category(request: Request, sub_category: SubCategoryForm = 
     sub_category_obj.update(sub_category.dict())
     
     # Insert the new sub_category into the database and Cache using redis
-    new_sub_category = request.app.database["sub_categorys"].insert_one(sub_category_obj)
+    new_sub_category = request.app.database["sub_categories"].insert_one(sub_category_obj)
     sub_category_json = dumps(sub_category_obj)
 
 
@@ -112,7 +112,7 @@ async def create_sub_category(request: Request, sub_category: SubCategoryForm = 
     
     request.app.redis_client.set(cache_key, sub_category_json)
 
-    created_sub_category = request.app.database["sub_categorys"].find_one({"_id": loads(sub_category_json).get("_id")})
+    created_sub_category = request.app.database["sub_categories"].find_one({"_id": loads(sub_category_json).get("_id")})
     print(loads(sub_category_json)['_id'])
     
     return created_sub_category
@@ -121,7 +121,7 @@ async def create_sub_category(request: Request, sub_category: SubCategoryForm = 
 @router.put("/{sub_category_id}")
 def update_sub_category(request: Request, sub_category_id: str, sub_category: dict):
 
-    result = request.app.database["sub_categorys"].update_one({"_id": sub_category_id}, {"$set": sub_category})
+    result = request.app.database["sub_categories"].update_one({"_id": sub_category_id}, {"$set": sub_category})
     if result.modified_count == 0:
         raise HTTPException(status_code=404, detail="User not found")
 
