@@ -28,13 +28,13 @@ def generate_reference():
     return "ieloro:"+reference
 
 
-# get all categorys
-@router.get("/", response_description="List all categorys") #, response_model=List[CategoryResponse])
-def get_categorys(request: Request):
+# get all categories
+@router.get("/", response_description="List all categories") #, response_model=List[CategoryResponse])
+def get_categories(request: Request):
     category_dict = []
-    categorys = request.app.database["categorys"].find()
+    categories = request.app.database["categories"].find()
 
-    for category in categorys:
+    for category in categories:
         category['id'] = str(category['_id'])
         category_dict.append(CategoryResponse(**category))
   
@@ -51,7 +51,7 @@ def get_category(request: Request, category_id: str):
         return json.loads(cached_category)
 
     # If the category is not in the cache, get it from the database
-    category = request.app.database["categorys"].find_one({"_id": category_id})
+    category = request.app.database["categories"].find_one({"_id": category_id})
     if category is None:
         raise HTTPException(status_code=404, detail="User not found")
 
@@ -65,7 +65,7 @@ async def create_category(request: Request, category: CategoryForm = Body(...)):
     user_id = "5f9f1b9b9b9b9b9b9b9b9b9b" # random user
 
     """
-    Categorys 
+    Categories
     account_id: str
     display_images: List[str]
     title: str
