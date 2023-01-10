@@ -8,8 +8,8 @@ from bson.json_util import dumps, loads
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
 from fastapi import APIRouter, Depends, status, Response, HTTPException, Request
 
-from models.category import ListingInDB as Listing
-from models.category import ListingForm, ListingUpdate, ListingResponse
+from models.category import SubCategoryInDB as SubCategory
+from models.category import SubCategoryForm, SubCategoryUpdate, SubCategoryResponse
 
 router = APIRouter()
 
@@ -29,14 +29,14 @@ def generate_reference():
 
 
 # get all sub_categorys
-@router.get("/", response_description="List all sub_categorys") #, response_model=List[ListingResponse])
+@router.get("/", response_description="List all sub_categorys") #, response_model=List[SubCategoryResponse])
 def get_sub_categorys(request: Request):
     sub_category_dict = []
     sub_categorys = request.app.database["sub_categorys"].find()
 
     for sub_category in sub_categorys:
         sub_category['id'] = str(sub_category['_id'])
-        sub_category_dict.append(ListingResponse(**sub_category))
+        sub_category_dict.append(SubCategoryResponse(**sub_category))
   
     return sub_category_dict
 
@@ -60,12 +60,12 @@ def get_sub_category(request: Request, sub_category_id: str):
     return sub_category
 
 
-@router.post("/", response_description="Create a new sub_category", status_code=status.HTTP_201_CREATED, response_model=ListingResponse)
-async def create_sub_category(request: Request, sub_category: ListingForm = Body(...)):
+@router.post("/", response_description="Create a new sub_category", status_code=status.HTTP_201_CREATED, response_model=SubCategoryResponse)
+async def create_sub_category(request: Request, sub_category: SubCategoryForm = Body(...)):
     user_id = "5f9f1b9b9b9b9b9b9b9b9b9b" # random user
 
     """
-    Listings 
+    SubCategorys 
     account_id: str
     display_images: List[str]
     title: str
