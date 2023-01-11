@@ -38,6 +38,7 @@ class UserInDB(Model):
     phone_verified: bool
     following_categories: list
     following_users: list
+    blocked_users: list
 
 
     class Config:
