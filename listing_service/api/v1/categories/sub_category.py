@@ -16,11 +16,6 @@ router = APIRouter()
 CACHE_KEY_PREFIX = "sub_category:"
 
 
-'''
-
-BASIC CRUD OPERATIONS FOR LISTINGS
-
-'''
 
 def generate_reference():
     # Generate a random string of length 8
@@ -65,35 +60,32 @@ async def create_sub_category(request: Request, sub_category: SubCategoryForm = 
     user_id = "5f9f1b9b9b9b9b9b9b9b9b9b" # random user
 
     """
-    SubCategories
-    account_id: str
-    display_images: List[str]
     title: str
-    views: int
-    reference: str
-    location: str
-    category_id: str
-    additional_details: dict
-    promoted: bool
-    status: str # (activated, unactivated, pending)
+    slug: str
+    description: str
+    seo_tag_title: str
+    seo_tag_description: str
+    seo_tag_keywords: list
+    active: str
     created_at: str
     updated_at: str
+    listings: list
+    sub_categories: list
     """
+
     # Parse and autofill remaining fields before saving to db
     sub_category_obj = {
-        # "account_id": user_id,
-        # "display_images": sub_category.display_images,
-        # "title": sub_category.title,
-        # "views": 0,
-        # "reference": generate_reference(),
-        # "location": sub_category.location,
-        # "category_id": sub_category.category_id,
-        # "additional_details": sub_category.additional_details,
-        # "promoted": sub_category.promoted,
-        # "status": "activated",
-        # "created_at": time.time(),
-        # "updated_at": time.time()
-    
+        "title": sub_category.title,
+        "slug": sub_category.slug,
+        "description": sub_category.description,
+        "seo_tag_title": sub_category.seo_tag_title,
+        "seo_tag_description": sub_category.seo_tag_description,
+        "seo_tag_keywords": sub_category.seo_tag_keywords,
+        "active": True,
+        "created_at": datetime.datetime.utcnow(),
+        "updated_at": datetime.datetime.utcnow(),
+        "listings": [],
+        "sub_categories": [],
 
     }
 
@@ -140,29 +132,3 @@ def delete_sub_category(request: Request,sub_category_id: str):
   
     cache_key = CACHE_KEY_PREFIX + sub_category_id
     request.app.redis_client.delete(cache_key)
-
-
-""""
-
-AUTHENTICATION
-
-"""
-
-# @router.post("/login")
-# def login(request: Request, sub_category: UsernamePasswordForm = Body(...)):
-#     # Get the sub_category from the database
-#     sub_category = request.app.database["sub_categories"].find_one({"email": sub_category.email})
-#     if sub_category is None:
-#         raise HTTPException(status_code=400, detail="Incorrect email or password")
-
-#     # Verify the password
-#     if not verify_password(sub_category["password"], sub_category.password):
-#         raise HTTPException(status_code=400, detail="Incorrect email or password")
-
-#     # Generate a JWT token and return it
-#     return {"access_token": create_access_token(sub_category["_id"], request.app.jwt_secret, request.app.jwt_algorithm)}
-
-
-"""
-CATEGORY OPERATIONS
-"""

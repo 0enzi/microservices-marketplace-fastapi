@@ -8,19 +8,13 @@ from bson.json_util import dumps, loads
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
 from fastapi import APIRouter, Depends, status, Response, HTTPException, Request
 
-from models.category import CategoryInDB as Category
+from models.category import Category
 from models.category import CategoryForm, CategoryUpdate, CategoryResponse
 
 router = APIRouter()
 
 CACHE_KEY_PREFIX = "category:"
 
-
-'''
-
-BASIC CRUD OPERATIONS FOR LISTINGS
-
-'''
 
 def generate_reference():
     # Generate a random string of length 8
@@ -62,42 +56,16 @@ def get_category(request: Request, category_id: str):
 
 @router.post("/", response_description="Create a new category", status_code=status.HTTP_201_CREATED, response_model=CategoryResponse)
 async def create_category(request: Request, category: CategoryForm = Body(...)):
-    user_id = "5f9f1b9b9b9b9b9b9b9b9b9b" # random user
 
-    """
-    Categories
-    account_id: str
-    display_images: List[str]
-    title: str
-    views: int
-    reference: str
-    location: str
-    category_id: str
-    additional_details: dict
-    promoted: bool
-    status: str # (activated, unactivated, pending)
-    created_at: str
-    updated_at: str
-    """
+  
     # Parse and autofill remaining fields before saving to db
     category_obj = {
-        "account_id": user_id,
-        "display_images": category.display_images,
-        "title": category.title,
-        "views": 0,
-        "reference": generate_reference(),
-        "location": category.location,
-        "category_id": category.category_id,
-        "additional_details": category.additional_details,
-        "promoted": category.promoted,
-        "status": "activated",
-        "created_at": time.time(),
-        "updated_at": time.time()
-    
-
+        "name": category.name,
+        "seo_tag_title": category.seo_tag_title,
+        "seo_tag_description": category.seo_tag_description,
+        "seo_tag_keywords": category.seo_tag_keywords,
     }
 
-    
 
     category_obj.update(category.dict())
     
@@ -140,29 +108,3 @@ def delete_category(request: Request,category_id: str):
   
     cache_key = CACHE_KEY_PREFIX + category_id
     request.app.redis_client.delete(cache_key)
-
-
-""""
-
-AUTHENTICATION
-
-"""
-
-# @router.post("/login")
-# def login(request: Request, category: UsernamePasswordForm = Body(...)):
-#     # Get the category from the database
-#     category = request.app.database["categories"].find_one({"email": category.email})
-#     if category is None:
-#         raise HTTPException(status_code=400, detail="Incorrect email or password")
-
-#     # Verify the password
-#     if not verify_password(category["password"], category.password):
-#         raise HTTPException(status_code=400, detail="Incorrect email or password")
-
-#     # Generate a JWT token and return it
-#     return {"access_token": create_access_token(category["_id"], request.app.jwt_secret, request.app.jwt_algorithm)}
-
-
-"""
-CATEGORY OPERATIONS
-"""
