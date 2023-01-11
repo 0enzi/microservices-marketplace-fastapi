@@ -6,7 +6,7 @@ from odmantic import EmbeddedModel, Model
 
 
 class Category(Model):
-   name: str
+   title: str
    seo_tag_title: str
    seo_tag_description: str
    seo_tag_keywords: list

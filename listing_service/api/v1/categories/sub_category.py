@@ -8,7 +8,7 @@ from bson.json_util import dumps, loads
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
 from fastapi import APIRouter, Depends, status, Response, HTTPException, Request
 
-from models.category import SubCategoryInDB as SubCategory
+from models.category import SubCategory
 from models.category import SubCategoryForm, SubCategoryUpdate, SubCategoryResponse
 
 router = APIRouter()

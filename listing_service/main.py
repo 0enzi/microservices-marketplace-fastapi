@@ -9,7 +9,7 @@ import redis, datetime
 
 config = dotenv_values(".env")
 
-app = FastAPI()
+app = FastAPI(title="Ieloro Listing Service", version="1.0.0")
 app.include_router(user_routes, prefix="/api/v1")
 
 
