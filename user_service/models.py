@@ -39,6 +39,7 @@ class UserInDB(Model):
     following_categories: list
     following_users: list
     blocked_users: list
+    favourite_listings: list
 
 
     class Config:
@@ -55,7 +56,8 @@ class UserUpdate(Model):
     account_type: str 
     status: bool 
     following_categories: list
-    following_list: list
+    following_listings: list
+    favourite_listings: list
 
     class Config:
         collection = "users"
@@ -74,5 +76,6 @@ class UserResponse(BaseModel):
     email_verified: bool
     phone_verified: bool
     following_categories: list
-    following_list: list
+    following_listings: list
+    favourite_listings: list
 

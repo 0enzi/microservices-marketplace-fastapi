@@ -13,26 +13,22 @@ from models.category import CategoryForm, CategoryUpdate, CategoryResponse
 
 router = APIRouter()
 
-CACHE_KEY_PREFIX = "category:"
+CACHE_KEY_PREFIX = "reports:"
 
-
-def generate_reference():
-    # Generate a random string of length 8
-    reference = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
-    return "ieloro:"+reference
 
 
 # get all categories
-@router.get("/", response_description="List all categories") #, response_model=List[CategoryResponse])
-def get_categories(request: Request):
-    category_dict = []
-    categories = request.app.database["categories"].find()
+@router.get("/report/{listing_id}", response_description="Get report by listing_id") #, response_model=List[CategoryResponse])
+def get_reports_by_listing(request: Request, listing_id:str):
 
-    for category in categories:
-        category['id'] = str(category['_id'])
-        del category['_id']
-        category_dict.append(category)
-    return category_dict
+
+    # If the category is not in the cache, get it from the database
+    category = request.app.database["categories"].find_one({"_id": category_id})
+    if category is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return category
+
 
 
 @router.get("/{category_id}")
