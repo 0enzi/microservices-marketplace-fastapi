@@ -5,6 +5,16 @@ import uuid
 from odmantic import EmbeddedModel, Model
 
 
+class Review(Model):
+    account_id: str
+    review: str
+    rating: float
+    timestamp: str
+
+    class Config:
+        collection = "reviews"
+
+
 class Listing(BaseModel):
     title: str = Field(...)
     display_images: List[str] = Field(...)
@@ -15,7 +25,8 @@ class Listing(BaseModel):
     category_id: str = Field(...)
     additional_details: dict = Field(...)
     promoted: bool = Field(...)
-    status: str = Field(...) # activated, unactivated, pending)
+    status: dict = Field(...)
+    reviews: List[dict] = Field(...)
     
     class Config:
         allow_population_by_field_name = True
