@@ -36,8 +36,8 @@ def get_listings(request: Request):
 
     for listing in listings:
         listing['id'] = str(listing['_id'])
-        listing_dict.append(ListingResponse(**listing))
-  
+        del listing['_id']
+        listing_dict.append(listing)
     return listing_dict
 
 

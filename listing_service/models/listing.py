@@ -65,6 +65,7 @@ class ListingInDB(Model):
     status: str # (activated, unactivated, pending)
     created_at: str
     updated_at: str
+    reports:list
 
     class Config:
         collection = "listings"
@@ -76,6 +77,7 @@ class ListingUpdate(BaseModel):
     city: Optional[str] 
     promoted: Optional[bool] # can only changed by us
     status: Optional[str] # can only changed by us
+    reports:list
 
     class Config:
         schema_extra = {
