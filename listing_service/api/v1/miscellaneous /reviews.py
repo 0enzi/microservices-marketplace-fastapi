@@ -16,14 +16,6 @@ router = APIRouter()
 CACHE_KEY_PREFIX = "review:"
 
 
-'''
-
-BASIC CRUD OPERATIONS FOR LISTINGS
-
-'''
-
-
-
 
 # get all reviews
 @router.get("/review/{review_id}", response_description="List all reviews in review") #, response_model=List[ListingResponse])
@@ -65,20 +57,11 @@ async def create_review(request: Request, review: ListingForm = Body(...)):
     """
     # Parse and autofill remaining fields before saving to db
     review_obj = {
-        "account_id": user_id,
-        "display_images": review.display_images,
-        "title": review.title,
-        "views": 0,
-        "reference": generate_reference(),
-        "location": review.location,
-        "category_id": review.category_id,
-        "additional_details": review.additional_details,
-        "promoted": review.promoted,
-        "status": "activated",
-        "created_at": time.time(),
-        "updated_at": time.time()
-    
-
+        "user_id": user_id,
+        "review": review.review,
+        "rating": review.rating,
+        "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
     }
 
     
@@ -124,29 +107,3 @@ def delete_review(request: Request,review_id: str):
   
     cache_key = CACHE_KEY_PREFIX + review_id
     request.app.redis_client.delete(cache_key)
-
-
-""""
-
-AUTHENTICATION
-
-"""
-
-# @router.post("/login")
-# def login(request: Request, review: UsernamePasswordForm = Body(...)):
-#     # Get the review from the database
-#     review = request.app.database["reviews"].find_one({"email": review.email})
-#     if review is None:
-#         raise HTTPException(status_code=400, detail="Incorrect email or password")
-
-#     # Verify the password
-#     if not verify_password(review["password"], review.password):
-#         raise HTTPException(status_code=400, detail="Incorrect email or password")
-
-#     # Generate a JWT token and return it
-#     return {"access_token": create_access_token(review["_id"], request.app.jwt_secret, request.app.jwt_algorithm)}
-
-
-"""
-CATEGORY OPERATIONS
-"""
