@@ -8,8 +8,8 @@ from bson.json_util import dumps, loads
 from fastapi import APIRouter, Body, Request, Response, HTTPException, status
 from fastapi import APIRouter, Depends, status, Response, HTTPException, Request
 
-from models.review import ListingInDB as Listing
-from models.review import ListingForm, ListingUpdate, ListingResponse
+from models.listing import Review
+from models.listing import ListingForm, ListingUpdate, ListingResponse
 
 router = APIRouter()
 
@@ -42,8 +42,8 @@ def get_review(request: Request, review_id: str):
     return review
 
 
-@router.post("/", response_description="Create a new review", status_code=status.HTTP_201_CREATED, response_model=ListingResponse)
-async def create_review(request: Request, review: ListingForm = Body(...)):
+@router.post("/", response_description="Create a new review", status_code=status.HTTP_201_CREATED, response_model=Review)
+async def create_review(request: Request, review: Review = Body(...)):
     user_id = "5f9f1b9b9b9b9b9b9b9b9b9b" # random user
 
     """
@@ -61,7 +61,7 @@ async def create_review(request: Request, review: ListingForm = Body(...)):
         "review": review.review,
         "rating": review.rating,
         "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        
+
     }
 
     
