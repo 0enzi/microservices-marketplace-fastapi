@@ -27,3 +27,29 @@ services:
       - ./listing_service:/app
     ports:
       - 8001:8000
+
+  emails:
+    image: ieloro-emails
+    command: sh -c "uvicorn main:app --reload --host 0.0.0.0"
+    build:
+      context: ./listing_service
+      dockerfile: Dockerfile
+    env_file:
+      - ./email_service/.env
+    volumes:
+      - ./email_service:/app
+    ports:
+      - 8002:8000
+
+  search:
+    image: ieloro-search
+    command: sh -c "uvicorn main:app --reload --host 0.0.0.0"
+    build:
+      context: ./listing_service
+      dockerfile: Dockerfile
+    env_file:
+      - ./search_service/.env
+    volumes:
+      - ./search_service:/app
+    ports:
+      - 8003:8000
