@@ -14,6 +14,8 @@ class Category(Model):
 
    class Config:
         collection = "categories"
+     
+       
 
    
 class SubCategory(Model):
